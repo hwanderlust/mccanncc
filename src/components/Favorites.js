@@ -1,6 +1,7 @@
 import React from 'react';
 import { StoreConsumer } from '../contexts';
 import Tile from './Tile/Tile';
+import ErrorMsg from './ErrorMsg';
 
 class Favorites extends React.Component {
 
@@ -29,7 +30,7 @@ class Favorites extends React.Component {
       return favs.map(fav => <Tile key={fav.id} tile={fav} fav={true}/>)
     }
 
-    return <div className='error-msg'>Whoops! I think you've got to favorite some things first :D</div>
+    return <ErrorMsg msg="Whoops! I think you've got to favorite some things first :D" />
   }
   
 

@@ -1,47 +1,95 @@
 import React from 'react';
 import { StoreConsumer } from '../../contexts';
+import { withRouter } from 'react-router-dom';
 
 class Search extends React.PureComponent {
 
   static contextType = StoreConsumer;
 
-  state = {
-    text: ''
+  constructor(props) {
+    super(props)
+    this.state = {
+      text: '',
+    }
+    this.searchInput = React.createRef()
   }
+  // state = {
+  //   text: ''
+  // }
 
   handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value
     })
   }
+
+  clearSearch = () => {
+    this.setState({
+      text: ''
+    })
+  }
+  
+  prepareSearchQuery = () => {
+    const query = this.state.text
+
+    return query.replace(' ', '')
+  }
   
 
   handleSubmit = (e) => {
     e.preventDefault()
+    // const url = `https://www.reddit.com/subreddits/search.json?q=${this.state.text}`
     console.log(this.state.text)
 
-    const url = `https://www.reddit.com/subreddits/search.json?q=${this.state.text}`
+    const query = this.prepareSearchQuery()
+    const url = `https://www.reddit.com/r/${query}/top/.json`;
     const options = {
-      method: 'GET'
+      method: 'GET',
     }
 
     fetch(url, options)
-    .then(r => r.json())
-    .then(r => {
-      console.log(`raw`, r)
-      this.context.handleSearch(r)
+    .then(r => { 
+      try {
+        if(r.ok) {
+          return r.json()
+        } else {
+          throw Error(`Request rejected with ${r.status}`)
+        }
+
+      } catch (error) {
+        console.log(error)
+      }
     })
-    .catch(err => console.log(err))
+    .then(r => {
+      this.handleFetch(r)
+    })
+    .catch(err => {
+      this.handleFetch(err)
+    })
   }
+
+  handleFetch = (res) => {
+    console.log(res)
+
+    this.context.handleSearch(res)
+    this.clearSearch()
+
+    if(this.props.history.location.pathname !== '/') {
+      this.props.history.push('/')
+    }
+
+    this.searchInput.current.blur()
+  }
+  
   
   render() {
 
     return (
       <form onSubmit={this.handleSubmit}>
-        <input type='text' className='search-bar' name='text' placeholder='search subreddits' value={this.state.text} onChange={this.handleChange} />
+        <input ref={this.searchInput} type='text' className='search-bar' name='text' placeholder='search subreddits' value={this.state.text} onChange={this.handleChange} />
       </form>
     )
   }
 }
 
-export default Search
+export default withRouter(Search);

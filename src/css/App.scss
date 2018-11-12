@@ -31,15 +31,15 @@ header {
   top: 15vh;
   padding: 1rem;
   border-radius: 5px;
-  @include animation(0s, 2s, slideInFromTop);
+  @include animation(0s, 1s, slideInFromTop);
 }
 
 @keyframes slideInFromTop {
   @include keyframes(slideInFromTop)
 
   0% { top: -100%; }
-  50% { top: 0; }
-  100% { top: 15vh; }
+  50% { top: -30%; }
+  100% { top: 0; }
 }
 
 // @keyframes slideInFromLeft {

@@ -1,5 +1,6 @@
 import React, { Component, Suspense, lazy } from 'react';
 import { StoreConsumer } from '../../contexts';
+import ErrorMsg from '../ErrorMsg';
 
 const Tile = lazy(() => import('./Tile'))
 
@@ -10,14 +11,6 @@ class TileContainer extends Component {
 
   state = {
     data: null,
-  }
-
-  componentDidMount() {
-    console.log(`tilecontainer mounted`)
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    console.log(`tilecontainer updated`, this.context)
   }
 
   renderTiles = () => {
@@ -55,6 +48,8 @@ class TileContainer extends Component {
 
             <main className='tile-area'>
               <Suspense delayMs={1000} fallback={<div>Loading...</div>}>
+
+                { ctx.searchError ? <ErrorMsg msg={`Unfortunately such a subreddit can't be found`} /> : null }
 
                 { this.state.data ? this.renderTiles() : null }
 

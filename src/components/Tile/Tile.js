@@ -6,7 +6,7 @@ import TilePic from './TilePic';
 
 class Tile extends PureComponent {
   
-  // new addition with 16.6
+  // new addition with 16.6 allowing access to context outside of render
   static contextType = StoreConsumer;
   
   constructor(props) {
@@ -84,13 +84,25 @@ class Tile extends PureComponent {
 
   // pass down higher res pic after thumbnail was loaded for lower bandwiths 
   handleOnload = () => {
+
+    // don't try to change the pic if a thumbnail exists and a higher res pic doesn't
+    if(!this.props.tile.picture) {
+      return
+    }
+
     this.setState({
       loaded: true
     })
   }
 
   handleOnError = (e) => {
-    // e.target.parentElement.parentElement.parentElement.remove()
+
+    // rather see the thumbnail than a 404 img due to CORS
+    if(this.props.tile.thumbnail) {
+      e.target.src = this.props.tile.thumbnail
+      return
+    }
+
     const four04 = document.createElement('img')
     four04.src = "http://i.imgur.com/lqHeX.jpg"
 
@@ -100,7 +112,7 @@ class Tile extends PureComponent {
   }
   
   
-  // for mobiles and tablets
+  // for mobiles and tablets - the double tapping for toggle fav-ing something
   handleTouch = (e) => {
     e.persist()
     let previousState;

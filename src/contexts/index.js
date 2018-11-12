@@ -14,6 +14,7 @@ export class StoreProvider extends React.Component {
     handleUnfavoriting: null,
     favorites: [],
     data: null,
+    searchError: false,
   }
 
   componentDidMount() {
@@ -111,13 +112,29 @@ export class StoreProvider extends React.Component {
 
   handleSearch = (rawData) => {
 
-    console.log(rawData.data.children)
+    try {
+      console.log(rawData.data.children)
 
-    this.setState(prevState => {
-      return {
-        data: rawData.data.children.map(el => serialize(el.data))
-      }
-    }, () => console.log(this.state))
+      this.setState(prevState => {
+        return {
+          data: rawData.data.children.map(el => serialize(el.data))
+        }
+      }, () => console.log(this.state))
+
+    } catch (error) {
+
+      // console.log(error)
+
+      this.setState({
+        searchError: true
+      })
+
+      setTimeout(() => {
+        this.setState({
+          searchError: false
+        })
+      }, 2500)
+    }
   }
 
   render() {

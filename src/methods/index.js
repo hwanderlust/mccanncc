@@ -12,7 +12,7 @@ export const serialize = (data) => {
   compiled.score = data.score || data.subscribers || 0
   compiled.description = data.description || ""
   compiled.creation = calcTime(data.created_utc)
-  compiled.url = data.permalink ? baseUrl + data.permalink : data.url  
+  compiled.url = data.permalink ? baseUrl + data.permalink : baseUrl + data.url  
 
   return compiled
 }
