@@ -1,3 +1,10 @@
+# README
+This is display of responsive web design, and a representation of how I enjoy tinkering with new ideas and concepts I haven't previously tried before like:
+- SASS - now supported out of the box with create-react-app--nesting, mixins, variables
+- React Context API, Suspense and Lazy--universal store for state, code splitting, and fallbacks
+- Image loading with lower resolutions images first and then higher resolutions for best UX practices, especially for slower network connections
+- Accessibility - able to navigate via keyboard, able to trigger proper events with the keyboard
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
