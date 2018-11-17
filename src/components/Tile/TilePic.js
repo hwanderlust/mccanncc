@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 
 
-const TilePic = memo(({ picture, author, title, handleOnload, handleOnError, description }) => {
+const TilePic = memo(({ picture, alt, handleOnload, handleOnError, description }) => {
   
   return (
     <figure className='pic-container'>
@@ -9,7 +9,7 @@ const TilePic = memo(({ picture, author, title, handleOnload, handleOnError, des
       {
         !description ? 
 
-        <img className='tile-pic' src={picture} onLoad={handleOnload} alt={`${title} by ${author}`} onError={handleOnError} /> 
+        <img className='tile-pic' src={picture} onLoad={handleOnload} alt={alt} onError={handleOnError} /> 
         
         : <p className='tile-desc'>{description}</p>
       }

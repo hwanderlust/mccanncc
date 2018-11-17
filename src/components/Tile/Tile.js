@@ -90,8 +90,15 @@ class Tile extends PureComponent {
       return
     }
 
-    this.setState({
-      loaded: true
+    this.setState(prevState => {
+
+      if(prevState.loaded) {
+        return        
+      }
+
+      return {
+        loaded: true
+      }
     })
   }
 
@@ -154,8 +161,7 @@ class Tile extends PureComponent {
 
             <TilePic 
               picture={this.passPictureDown()} 
-              title={tile.title} 
-              author={tile.author} 
+              alt={`${tile.title} by ${tile.author}`}
               description={tile.description}
               handleOnload={this.handleOnload}
               handleOnError={this.handleOnError} 
